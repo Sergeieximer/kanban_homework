@@ -1,39 +1,33 @@
 import React from "react";
 
 const TaskSelect = ({
-                        prevTasks,
+                        tableIndex,
+                        tablePrevIndex,
+                        prevTaskList,
+                        selectedTask,
+                        setSelectedTask,
                         handleMoveTask,
-                        errorMsg,
-                        handleCancelCard,
+                        setShowForm
                     }) => {
-    const [selectedTask, setSelectedTask] = React.useState("");
-
-    const handleSelectTask = () => {
-        const task = prevTasks.find((t) => t.name === selectedTask);
-        if (task) {
-            handleMoveTask(task);
-            setSelectedTask("");
-        }
-    };
-
     return (
         <>
             <div className="add-card-form">
-                <select
-                    value={selectedTask}
-                    onChange={(e) => setSelectedTask(e.target.value)}
-                >
+                <select value={selectedTask} onChange={(e) => setSelectedTask(e.target.value)}>
                     <option value="">Select a task</option>
-                    {prevTasks?.map((task) => (
-                        <option key={task.name} value={task.name}>
+                    {prevTaskList.map((task, index) => (
+                        <option key={index} value={task.name}>
                             {task.name}
                         </option>
                     ))}
                 </select>
-                {errorMsg && <div className="error-message">{errorMsg}</div>}
                 <div className="add-card-buttons">
-                    <button onClick={handleSelectTask}>Save</button>
-                    <button onClick={handleCancelCard}>Cancel</button>
+                    <button
+                        onClick={() => {
+                            handleMoveTask(tablePrevIndex, tableIndex, prevTaskList.find((task) => task.name === selectedTask))
+                            setShowForm(false)
+                        }}>
+                        Add card
+                    </button>
                 </div>
             </div>
         </>

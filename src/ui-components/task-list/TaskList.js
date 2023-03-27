@@ -1,45 +1,41 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import TaskForm from "../task-form/TaskForm";
 import AddCardButton from "../add-card-button/AddCardButton";
 import TaskSelect from "../task-select/TaskSelect";
+import {useNavigate} from "react-router";
 
 const TaskList = ({
                       tableName,
-                      tasks,
-                      prevTasks,
-                      handleMoveTask,
-                      isAddButtonDisabled,
+                      tableIndex,
+                      tablePrevIndex,
+                      prevTaskList,
+                      taskList,
+                      newTaskName,
+                      newTaskDescription,
+                      setNewTaskName,
+                      setNewTaskDescription,
+                      handleAddTask,
+                      selectedTask,
+                      setSelectedTask,
+                      handleMoveTask
                   }) => {
     const [showForm, setShowForm] = useState(false);
+    const navigate = useNavigate()
 
     const handleAddCard = () => {
         setShowForm(true);
     };
 
-    const handleSaveCard = () => {
-        if (!prevTasks) {
-            setShowForm(false);
-            return;
-        }
-
-        const selectedTask = prevTasks.find((task) => task.name === tasks);
-        if (selectedTask) {
-            handleMoveTask(selectedTask);
-        }
-        setShowForm(false);
-    };
-
-    const handleCancelCard = () => {
-        setShowForm(false);
-    };
 
     return (
         <>
             <div className="tasks-list-wrapper">
                 <div className="tasks-list-header">{tableName}</div>
                 <div className="tasks-list">
-                    {tasks.map((task, index) => (
-                        <div key={index} className="task-element">
+                    {taskList.map((task, index) => (
+                        <div onClick={() => {
+                            navigate('task-description/' + tableIndex + '-' + index)
+                        }} key={index} className="task-element">
                             <div className="task-name">{task.name}</div>
                         </div>
                     ))}
@@ -48,22 +44,30 @@ const TaskList = ({
                     {tableName === "Backlog" ? (
                         showForm ? (
                             <TaskForm
-                                handleCancelCard={handleCancelCard}
-                                handleSaveCard={handleSaveCard}
+                                newTaskName={newTaskName}
+                                newTaskDescription={newTaskDescription}
+                                setNewTaskName={setNewTaskName}
+                                setNewTaskDescription={setNewTaskDescription}
+                                handleAddTask={handleAddTask}
+                                setShowForm={setShowForm}
                             />
                         ) : (
-                            <AddCardButton handleAddCard={handleAddCard} />
+                            <AddCardButton handleAddCard={handleAddCard}/>
                         )
                     ) : showForm ? (
                         <TaskSelect
-                            tasks={prevTasks}
-                            handleCancelCard={handleCancelCard}
-                            handleSaveCard={handleSaveCard}
+                            setShowForm={setShowForm}
+                            tableIndex={tableIndex}
+                            tablePrevIndex={tablePrevIndex}
+                            prevTaskList={prevTaskList}
+                            selectedTask={selectedTask}
+                            setSelectedTask={setSelectedTask}
+                            handleMoveTask={handleMoveTask}
                         />
                     ) : (
                         <AddCardButton
                             handleAddCard={handleAddCard}
-                            disabled={isAddButtonDisabled}
+                            disabled={prevTaskList.length === 0}
                         />
                     )}
                 </div>

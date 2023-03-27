@@ -1,24 +1,31 @@
 import React from "react";
 
-const TaskForm = ({taskName, handleTaskNameChange, taskDesc, handleTaskDescChange, errorMsg, handleSaveCard, handleCancelCard}) => {
+const TaskForm = ({
+                      newTaskName,
+                      newTaskDescription,
+                      setNewTaskName,
+                      setNewTaskDescription,
+                      handleAddTask,
+                      setShowForm
+                  }) => {
     return (
         <div className="add-card-form">
             <input
                 type="text"
-                placeholder="Enter task name"
-                value={taskName}
-                onChange={handleTaskNameChange}
+                placeholder="Add a task"
+                value={newTaskName}
+                onChange={(e) => setNewTaskName(e.target.value)}
             />
-            <textarea
-                placeholder="Enter task description"
-                value={taskDesc}
-                onChange={handleTaskDescChange}
-            ></textarea>
-            {errorMsg && <div className="error-message">{errorMsg}</div>}
-            <div className="add-card-buttons">
-                <button onClick={handleSaveCard}>Save</button>
-                <button onClick={handleCancelCard}>Cancel</button>
-            </div>
+            <input
+                type="text"
+                placeholder="Add a task description"
+                value={newTaskDescription}
+                onChange={(e) => setNewTaskDescription(e.target.value)}
+            />
+            <button onClick={() => {
+                handleAddTask('backlog')
+                setShowForm(false)
+            }}>Submit</button>
         </div>
     )
 }
