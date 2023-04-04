@@ -8,24 +8,28 @@ const TaskForm = ({
                       handleAddTask,
                       setShowForm
                   }) => {
+
     return (
         <div className="add-card-form">
-            <input
+            <input className="input-add-a-task"
                 type="text"
                 placeholder="Add a task"
                 value={newTaskName}
                 onChange={(e) => setNewTaskName(e.target.value)}
             />
-            <input
+            <input className="input-add-a-task-description"
                 type="text"
                 placeholder="Add a task description"
                 value={newTaskDescription}
                 onChange={(e) => setNewTaskDescription(e.target.value)}
             />
-            <button onClick={() => {
-                handleAddTask('backlog')
-                setShowForm(false)
-            }}>Submit</button>
+            <div className="">
+                <button onClick={() => {
+                    handleAddTask('backlog')
+                    setShowForm(false)
+                }}>Submit
+                </button>
+            </div>
         </div>
     )
 }
