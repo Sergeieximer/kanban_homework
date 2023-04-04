@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import TaskList from "../../ui-components/task-list/TaskList";
+import TaskList from "../../user-interface-components/task-list/TaskList";
 
 const KANBAN_BOARD_STORAGE_KEY = 'kanbanBoard';
 
